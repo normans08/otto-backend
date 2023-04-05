@@ -2,7 +2,7 @@ const { Configuration, OpenAIApi } = require("openai");
 
 const transcribeGpt = async (req, res) => {
   const configuration = new Configuration({
-    apiKey: process.env.GPT_TOKEN,
+    apiKey: "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",
   });
   try {
     const openai = new OpenAIApi(configuration);
@@ -18,13 +18,11 @@ const transcribeGpt = async (req, res) => {
 
     let completeOptions = {
       ...options,
-      // prompt: `${newQuestion}
-      //  ${formatedText}`,
+
       messages: [
         {
           role: "user",
-          content: `${req.body.first}
-      ${req.body.second}`,
+          content: req.body.body.first + " " + req.body.body.second,
         },
       ],
     };

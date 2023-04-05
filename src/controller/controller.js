@@ -2,7 +2,7 @@ const { Configuration, OpenAIApi } = require("openai");
 
 const transcribeGpt = async (req, res) => {
   const configuration = new Configuration({
-    apiKey: "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",
+    apiKey: process.env.GPT_TOKEN,
   });
   try {
     const openai = new OpenAIApi(configuration);

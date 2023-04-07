@@ -2,6 +2,19 @@ const { Configuration, OpenAIApi } = require("openai");
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 const fs = require("fs");
+const { Deepgram } = require("@deepgram/sdk");
+
+const getTranscript = async (req, res) => {
+  console.log("req", req.body);
+  const deepgram = new Deepgram(process.env.DG_KEY);
+
+  const quoteTranscription = await deepgram.transcription
+    .preRecorded({ url: req.body.url }, { punctuate: true, language: "en-US" })
+    .then((transcription) => transcription.results.channels[0].alternatives[0]);
+  return {
+    transcription: quoteTranscription,
+  };
+};
 
 const transcribeGpt = async (req, res) => {
   const configuration = new Configuration({
@@ -112,6 +125,7 @@ const uploadAudio = async (req, res) => {
 };
 
 module.exports = {
+  getTranscript,
   transcribeGpt,
   uploadAudio,
 };
